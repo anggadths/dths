@@ -1,0 +1,35 @@
+name: "Keep-Alive Watcher"
+
+on:
+  schedule:
+    - cron: "*/15 * * * *" 
+  workflow_dispatch:      
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write   
+      contents: read
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: "Check and Trigger Main Workflow"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          WORKFLOW_FILE="blank.yml"
+          
+          ACTIVE_RUNS=$(gh run list --workflow "$WORKFLOW_FILE" --json status --jq '[.[] | select(.status == "in_progress" or .status == "queued")] | length')
+          
+          echo "Current active runs for $WORKFLOW_FILE: $ACTIVE_RUNS"
+          
+          if [ "$ACTIVE_RUNS" -eq 0 ]; then
+            echo "No active runs found. Triggering via workflow_dispatch..."
+            gh workflow run "$WORKFLOW_FILE" \
+              -f PUBLISH_GIT="true"
+            echo "Workflow triggered successfully."
+          else
+            echo "Workflow is already running. No action needed."
+          fi
