@@ -1,1 +1,1 @@
-https://geographic-yang-honolulu-chemistry.trycloudflare.com/cloudflare
+https://api.trycloudflare.com/cloudflare
