@@ -1,1 +1,1 @@
-https://api.trycloudflare.com/cloudflare
+https://least-cure-using-meetings.trycloudflare.com/cloudflare
