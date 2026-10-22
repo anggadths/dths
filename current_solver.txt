@@ -1,1 +1,1 @@
-https://bay-second-chapters-hand.trycloudflare.com/cloudflare
+https://api.trycloudflare.com/cloudflare
